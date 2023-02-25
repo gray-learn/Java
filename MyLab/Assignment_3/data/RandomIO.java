@@ -1,6 +1,5 @@
 package data;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
@@ -9,7 +8,7 @@ import business.Person;
 
 /**
  * 
- * @name KUORUI, CHIANG; N01538270
+ * @name N01538270
  *
  */
 public class RandomIO {
@@ -49,9 +48,8 @@ public class RandomIO {
 	public static Person findPersonByRecordNumber(String recordNumber, String filename) throws IOException {
 		try (RandomAccessFile file = new RandomAccessFile(filename, "r")) {
 			// calculate the number of records in the file
-			System.out.println("FILELENGTH==" + file.length());
 			long count = file.length() / RECORD_SIZE;
-			System.out.println("count of row ==" + count);
+//			System.out.println("count of row ==" + count);
 
 			// iterate over each record in the file
 			for (int i = 1; i <= count; i++) {
@@ -60,10 +58,10 @@ public class RandomIO {
 				if (position >= 0) {
 					// move the file pointer to the position of the record
 					file.seek(position);
-					System.out.println("position==" + position);
+//					System.out.println("position==" + position);
 					position++;
 					String recordNum = readString(file, RECORD_NUMBER_SIZE);
-					System.out.println("recordNum==" + recordNum);
+//					System.out.println("recordNum==" + recordNum);
 					if (recordNumber.equals(recordNum)) {
 						// check if the current record matches the record number we're looking for
 						String firstName = readString(file, FIRST_NAME_SIZE);
@@ -91,9 +89,9 @@ public class RandomIO {
 			file.writeByte(0);
 		}
 
-		System.out.println("size======" + size);
-		System.out.println("remainingBytes======" + remainingBytes);
-		System.out.println("strByte.length======" + strByte.length);
+//		System.out.println("size======" + size);
+//		System.out.println("remainingBytes======" + remainingBytes);
+//		System.out.println("strByte.length======" + strByte.length);
 	}
 
 	private static String readString(RandomAccessFile file, int size) throws IOException {

@@ -20,7 +20,7 @@ import data.RandomIO;
 
 /**
  * 
- * @name KUORUI, CHIANG
+ * N01538270
  *
  */
 
