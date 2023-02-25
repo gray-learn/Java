@@ -19,8 +19,12 @@ public class RandomIO {
 	public static final int AGE_SIZE = 4; // integer type with max length 3, plus 1 byte for sign
 	public static final int RECORD_SIZE = RECORD_NUMBER_SIZE + FIRST_NAME_SIZE + LAST_NAME_SIZE + PHONE_SIZE + AGE_SIZE;
 
+	private RandomIO() {
+
+	}
+
 	public static void addPersonToFile(Person person, String filename) throws IOException {
-		
+
 		try (RandomAccessFile file = new RandomAccessFile(filename, "rw")) {
 			// seek to end of file appendData
 			file.seek(file.length());
