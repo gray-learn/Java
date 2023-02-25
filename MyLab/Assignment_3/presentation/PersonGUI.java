@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
@@ -30,12 +31,13 @@ public class PersonGUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTextField recordNumberField, firstNameField, lastNameField, ageField, phoneField;
 	private JButton addButton, findButton;
+	private String filePath = "people.dat";
 
 	public PersonGUI() {
 		super("Random File Processing");
 
 		// create components
-		JLabel recordNumberLabel = new JLabel("Record Number:");
+		JLabel recordNumberLabel = new JLabel("Record#:");
 		JLabel firstNameLabel = new JLabel("First Name:");
 		JLabel lastNameLabel = new JLabel("Last Name:");
 		JLabel ageLabel = new JLabel("Age:");
@@ -102,7 +104,7 @@ public class PersonGUI extends JFrame implements ActionListener {
 				}
 				// add new person to file
 				Person person = new Person(recordNum, firstName, lastName, phone, age);
-				RandomIO.addPersonToFile(person, "people.dat");
+				RandomIO.addPersonToFile(person, filePath);
 				JOptionPane.showMessageDialog(this, "Person added to file.");
 			} else if (event.getSource() == findButton) {
 				// Validate
@@ -114,22 +116,28 @@ public class PersonGUI extends JFrame implements ActionListener {
 							+ "record Number should be number, and do not go over 4 degit");
 				}
 				// find person by record number and display details
-				Person person = RandomIO.findPersonByRecordNumber(recordNum, "people.dat");
-				if (null != person) {
-					firstNameField.setText(person.getFirstName());
-					lastNameField.setText(person.getLastName());
-					ageField.setText(Integer.toString(person.getAge()));
-					phoneField.setText(person.getPhone());
-				} else {
+				File fileSrc = new File(filePath);
+				if (fileSrc.createNewFile()) {
 					throw new WrongInputException("Can not find this person by recordNumber");
+				} else {
+					Person person = RandomIO.findPersonByRecordNumber(recordNum, filePath);
+					if (null != person) {
+						firstNameField.setText(person.getFirstName());
+						lastNameField.setText(person.getLastName());
+						ageField.setText(Integer.toString(person.getAge()));
+						phoneField.setText(person.getPhone());
+					} else {
+						throw new WrongInputException("Can not find this person by recordNumber");
+					}
 				}
+
 			}
 		} catch (Exception e) {
 			firstNameField.setText("");
 			lastNameField.setText("");
 			ageField.setText("");
 			phoneField.setText("");
-//			e.printStackTrace();
+			e.printStackTrace(); // debug
 			JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
 		}
 	}
