@@ -1,4 +1,4 @@
-package assignment6;
+package Practice;
 
 public class SyncedThreadExample {
 	static Integer sum = new Integer(0);//Integer wrapper object
